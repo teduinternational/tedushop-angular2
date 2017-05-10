@@ -4,8 +4,10 @@ import { RoleComponent } from './role.component';
 import { Routes, RouterModule } from '@angular/router';
 import { DataService } from '../../core/services/data.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PaginationModule  } from 'ngx-bootstrap/pagination';
 import {FormsModule} from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 const roleRoutes: Routes = [
   //localhost:4200/main/user
   { path: '', redirectTo: 'index', pathMatch: 'full' },
@@ -17,6 +19,7 @@ const roleRoutes: Routes = [
     CommonModule,
     PaginationModule,
     FormsModule,
+    ModalModule.forRoot(),
     RouterModule.forChild(roleRoutes)
   ],
   declarations: [RoleComponent],
