@@ -32,12 +32,23 @@ export class RoleComponent implements OnInit {
         this.totalRow = response.TotalRows;
       });
   }
+  loadRole(id: any) {
+    this._dataService.get('/api/appRole/detail/' + id)
+      .subscribe((response: any) => {
+        this.entity = response;
+        console.log(this.entity);
+      });
+  }
   pageChanged(event: any): void {
     this.pageIndex = event.page;
     this.loadData();
   }
   showAddModal() {
     this.entity = {};
+    this.modalAddEdit.show();
+  }
+  showEditModal(id: any) {
+    this.loadRole(id);
     this.modalAddEdit.show();
   }
   saveChange(valid: boolean) {
@@ -48,6 +59,14 @@ export class RoleComponent implements OnInit {
             this.loadData();
             this.modalAddEdit.hide();
             this._notificationService.printSuccessMessage(MessageContstants.CREATED_OK_MSG);
+          }, error => this._dataService.handleError(error));
+      }
+      else {
+        this._dataService.put('/api/appRole/update', JSON.stringify(this.entity))
+          .subscribe((response: any) => {
+            this.loadData();
+            this.modalAddEdit.hide();
+            this._notificationService.printSuccessMessage(MessageContstants.UPDATED_OK_MSG);
           }, error => this._dataService.handleError(error));
       }
     }
