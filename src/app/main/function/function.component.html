@@ -31,8 +31,9 @@
         <tree-root #treeFunction [nodes]="_functionHierachy">
           <ng-template #treeNodeTemplate let-node let-index="index">
             <span>{{ node.data.Name }}</span>
-          <button class="btn btn-xs btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
-          <button class="btn btn-xs btn-danger" (click)="delete(node.data.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+             <button class="btn btn-xs btn-success" (click)="showPermission(node.data.ID)"> <i class="fa fa-lock"  aria-hidden="true"></i></button>
+            <button class="btn btn-xs btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
+            <button class="btn btn-xs btn-danger" (click)="delete(node.data.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </ng-template>
         </tree-root>
       </div>
@@ -127,6 +128,74 @@
             </div>
           </div>
 
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Permission popup-->
+
+<div bsModal #permissionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Phân quyền cho chức năng</h4>
+        <button type="button" class="close pull-right" (click)="permissionModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left input_mask" novalidate #permissionForm="ngForm" (ngSubmit)="savePermission(permissionForm.valid,_permission)">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Tên quyền
+                </th>
+                <th>
+                  Quyền được làm
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let permission of _permission">
+                <td>
+                  {{permission.AppRole.Description}}
+                </td>
+                <td>
+                  <div class="checkbox">
+                    <label>
+                              <input type="checkbox" [(ngModel)]="permission.CanRead" [name]="permission.id" [ngModelOptions]="{standalone: true}"> Xem
+                            </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                              <input type="checkbox"  [(ngModel)]="permission.CanCreate" [name]="permission.id" name="status" [ngModelOptions]="{standalone: true}"> Thêm
+                            </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                              <input type="checkbox"  [(ngModel)]="permission.CanUpdate" [name]="permission.id" name="status" [ngModelOptions]="{standalone: true}"> Sửa
+                            </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                              <input type="checkbox"  [(ngModel)]="permission.CanDelete" [name]="permission.id" name="status" [ngModelOptions]="{standalone: true}"> Xóa
+                            </label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+               <button type="button" (click)="permissionModal.hide()" class="btn btn-primary">Hủy bỏ</button>
+              <button type="submit" class="btn btn-success" [disabled]="!permissionForm.form.valid">Cập nhật</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
