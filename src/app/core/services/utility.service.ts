@@ -29,7 +29,7 @@ export class UtilityService {
     for (var i = 0; i < arr.length; i += 1) {
       let node = arr[i];
       node.children = [];
-      map[node.Id] = i; // use map to look-up the parents
+      map[node.ID] = i; // use map to look-up the parents
       if (node.ParentId !== null) {
         arr[map[node.ParentId]].children.push(node);
       } else {

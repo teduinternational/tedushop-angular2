@@ -1,3 +1,134 @@
-<p>
-  function works!
-</p>
+<div class="page-title">
+  <div class="title_left">
+    <h3>Danh sách người dùng</h3>
+  </div>
+
+  <div class="title_right">
+    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+      <div class="input-group">
+        <input type="text" class="form-control" name="filter" (keyup.enter)="search()" [(ngModel)]="filter" placeholder="Gõ tên quyền...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" (click)="search()" type="button">Tìm!</button>
+         </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <button class="btn btn-success" (click)="showAddModal()">Thêm mới</button>
+          </li>
+
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <tree-root #treeFunction [nodes]="_functionHierachy">
+          <ng-template #treeNodeTemplate let-node let-index="index">
+            <span>{{ node.data.Name }}</span>
+          <button class="btn btn-xs btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
+          <button class="btn btn-xs btn-danger" (click)="delete(node.data.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          </ng-template>
+        </tree-root>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal add and edit-->
+<div bsModal #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Thêm mới / Chỉnh sửa</h4>
+        <button type="button" class="close pull-right" (click)="addEditModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left input_mask" novalidate #addEditForm="ngForm" (ngSubmit)="saveChanges(addEditForm.valid)"
+          *ngIf="entity">
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Mã chức năng</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input type="hidden" [(ngModel)]="entity.ID" name="id" />
+              <input type="text" #id="ngModel" [disabled]="editFlg" [(ngModel)]="entity.ID" required name="id" class="form-control" />
+              <small [hidden]="id.valid || (id.pristine && !addEditForm.submitted)" class="text-danger">
+                Bạn phải nhập mã chức năng
+              </small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên chức năng</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input type="text" #name="ngModel" [(ngModel)]="entity.Name" required minlength="3" name="name" class="form-control" />
+              <small [hidden]="name.valid || (name.pristine && !addEditForm.submitted)" class="text-danger">
+                Bạn phải nhập tên ít nhất 3 ký tự
+              </small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Đường dẫn</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input type="text" #url="ngModel" [(ngModel)]="entity.URL" required name="url" class="form-control" />
+              <small [hidden]="url.valid || (url.pristine && !addEditForm.submitted)" class="text-danger">
+                Bạn phải nhập đường dẫn
+              </small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Thứ tự</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input type="number" #displayOrder="ngModel" [(ngModel)]="entity.DisplayOrder" required name="displayOrder" class="form-control"
+              />
+              <small [hidden]="displayOrder.valid || (displayOrder.pristine && !addEditForm.submitted)" class="text-danger">
+                Bạn phải nhập thứ tự
+              </small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Chức năng cha</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <select class="form-control" name="parentId" [(ngModel)]="entity.ParentId">
+                 <option value="">--Chọn chức năng cha--</option>
+                  <option *ngFor="let x of _functions" [value]="x.ID">{{x.Name}}</option>
+                </select>
+              <input type="hidden" [(ngModel)]="entity.ParentId" name="parentId" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Icon CSS</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input type="text" #iconCss="ngModel" [(ngModel)]="entity.IconCss" name="iconCss" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng thái</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <div class="checkbox">
+                <label>
+                              <input type="checkbox" [(ngModel)]="entity.Status" name="status" #status="ngModel"> Kích hoạt
+                            </label>
+              </div>
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+              <button type="button" (click)="addEditModal.hide()" class="btn btn-primary">Hủy bỏ</button>
+              <button type="submit" class="btn btn-success" [disabled]="!addEditForm.form.valid">Cập nhật</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

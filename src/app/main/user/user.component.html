@@ -46,7 +46,7 @@
               <td>{{user.UserName}}</td>
               <td>{{user.FullName}}</td>
               <td>{{user.Email}}</td>
-              <td>{{user.Birthday}}</td>
+              <td>{{user.BirthDay | date:'dd/MM/yyyy'}}</td>
               <td>{{user.PhoneNumber}}</td>
               <td><img [src]="baseFolder + user.Avatar" class="img-responsive" width="128" /></td>
               <td>
@@ -159,7 +159,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Ngày sinh</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <input type="text" #birthday="ngModel" daterangepicker [options]="dateOptions" [(ngModel)]="entity.BirthDay" name="birthday"
+              <input type="text" #birthday="ngModel" daterangepicker (selected)="selectedDate($event)" [options]="dateOptions" [(ngModel)]="entity.BirthDay" name="birthday"
                 class="form-control">
             </div>
           </div>

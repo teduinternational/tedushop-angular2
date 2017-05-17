@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
   public filter: string = '';
   public users: any[];
   public entity: any;
-  public baseFolder :string = SystemConstants.BASE_API;
+  public baseFolder: string = SystemConstants.BASE_API;
   public allRoles: IMultiSelectOption[] = [];
   public roles: any[];
 
@@ -70,7 +70,7 @@ export class UserComponent implements OnInit {
           this.myRoles.push(role);
         }
         this.entity.BirthDay = moment(new Date(this.entity.BirthDay)).format('DD/MM/YYYY');
-        
+
         console.log(this.entity.BirthDay);
       });
   }
@@ -92,11 +92,11 @@ export class UserComponent implements OnInit {
       let fi = this.avatar.nativeElement;
       if (fi.files.length > 0) {
         this._uploadService.postWithFile('/api/upload/saveImage', null, fi.files)
-        .then((imageUrl: string) => {
-          this.entity.Avatar = imageUrl;
-        }).then(() => {
-          this.saveData();
-        });
+          .then((imageUrl: string) => {
+            this.entity.Avatar = imageUrl;
+          }).then(() => {
+            this.saveData();
+          });
       }
       else {
         this.saveData();
@@ -132,5 +132,9 @@ export class UserComponent implements OnInit {
   }
   public selectGender(event) {
     this.entity.Gender = event.target.value
+  }
+
+  public selectedDate(value: any) {
+    this.entity.BirthDay =  moment(value.end._d).format('DD/MM/YYYY');
   }
 }
