@@ -21,7 +21,7 @@
       <div class="x_title">
         <ul class="nav navbar-right panel_toolbox">
           <li>
-            <button class="btn btn-success" (click)="showAddModal()">Thêm mới</button>
+            <button *ngIf="_authenService.hasPermission('USER','create')" class="btn btn-success" (click)="showAddModal()">Thêm mới</button>
           </li>
 
         </ul>
@@ -50,8 +50,8 @@
               <td>{{user.PhoneNumber}}</td>
               <td><img [src]="baseFolder + user.Avatar" class="img-responsive" width="128" /></td>
               <td>
-                <button class="btn btn-primary" (click)="showEditModal(user.Id)"><i class="fa fa-pencil-square-o"></i></button>
-                <button class="btn btn-danger" (click)="deleteItem(user.Id)"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-primary"  *ngIf="_authenService.hasPermission('USER','update')" (click)="showEditModal(user.Id)"><i class="fa fa-pencil-square-o"></i></button>
+                <button class="btn btn-danger"  *ngIf="_authenService.hasPermission('USER','delete')" (click)="deleteItem(user.Id)"><i class="fa fa-trash"></i></button>
 
               </td>
             </tr>
