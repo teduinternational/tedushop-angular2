@@ -14,8 +14,9 @@ export const mainRoutes: Routes = [
 
             { path: 'role', loadChildren: './role/role.module#RoleModule' },
 
-            { path: 'function', loadChildren: './function/function.module#FunctionModule' }
+            { path: 'function', loadChildren: './function/function.module#FunctionModule' },
 
+            { path: 'product-category', loadChildren: './product-category/product-category.module#ProductCategoryModule' }
         ]
     }
 
