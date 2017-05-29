@@ -27,10 +27,11 @@ export class ProductComponent implements OnInit {
   public pageIndex: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
-  public filter: string = '';
+  public filterKeyword: string = '';
   public filterCategoryID: number;
   public products: any[];
   public productCategories: any[];
+  public checkedItems: any[];
 
   constructor(public _authenService: AuthenService,
     private _dataService: DataService,
@@ -46,14 +47,14 @@ export class ProductComponent implements OnInit {
     this.entity.Alias = this.utilityService.MakeSeoTitle(this.entity.Name);
   }
   public search() {
-    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filter + '&categoryId=' + this.filterCategoryID)
+    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId=' + this.filterCategoryID)
       .subscribe((response: any) => {
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
       }, error => this._dataService.handleError(error));
   }
   public reset() {
-    this.filter = '';
+    this.filterKeyword = '';
     this.filterCategoryID = null;
     this.search();
   }
@@ -121,7 +122,22 @@ export class ProductComponent implements OnInit {
     this.search();
   }
 
- public keyupHandlerContentFunction(e: any) {
+  public keyupHandlerContentFunction(e: any) {
     this.entity.Content = e;
   }
+
+  public deleteMulti() {
+    this.checkedItems = this.products.filter(x => x.Checked);
+    var checkedIds = [];
+    for (var i = 0; i < this.checkedItems.length; ++i)
+      checkedIds.push(this.checkedItems[i]["ID"]);
+
+    this.notificationService.printConfirmationDialog(MessageContstants.CONFIRM_DELETE_MSG, () => {
+      this._dataService.delete('/api/product/deletemulti', 'checkedProducts', JSON.stringify(checkedIds)).subscribe((response: any) => {
+        this.notificationService.printSuccessMessage(MessageContstants.DELETED_OK_MSG);
+        this.search();
+      }, error => this._dataService.handleError(error));
+    });
+  }
+
 }
