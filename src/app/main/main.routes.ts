@@ -16,7 +16,11 @@ export const mainRoutes: Routes = [
 
             { path: 'function', loadChildren: './function/function.module#FunctionModule' },
 
-            { path: 'product-category', loadChildren: './product-category/product-category.module#ProductCategoryModule' }
+            { path: 'product-category', loadChildren: './product-category/product-category.module#ProductCategoryModule' },
+
+             { path: 'product', loadChildren: './product/product.module#ProductModule' }
+
+
         ]
     }
 
