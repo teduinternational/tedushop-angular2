@@ -1,0 +1,128 @@
+<div class="page-title">
+  <div class="title_left">
+    <h3>Chi tiết hóa đơn</h3>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+
+  <div class="clearfix"></div>
+
+  <div class="x_panel">
+    <div class="x_title">
+      <ul class="nav navbar-right panel_toolbox">
+        <li>
+          <button class="btn btn-primary" (click)="goBack()">Quay lại</button>
+        </li>
+         <li>
+          <button class="btn btn-success" (click)="exportToExcel()">Xuất ra Excel</button>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      <form class="form-horizontal form-label-left input_mask" novalidate #addEditForm="ngForm" (ngSubmit)="saveChanges(addEditForm.valid)"
+        *ngIf="entity">
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên khách hàng</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="hidden" [(ngModel)]="entity.ID" name="id" />
+            <input type="text" #customerName="ngModel" disabled [(ngModel)]="entity.CustomerName" required minlength="3" name="customerName" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Địa chỉ </label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <textarea class="form-control" disabled #customerAddress="ngModel" [(ngModel)]="entity.CustomerAddress" name="customerAddress" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" #customerEmail="ngModel" disabled [(ngModel)]="entity.CustomerEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+               name="customerEmail" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Số điện thoại</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" #customerMobile="ngModel" [(ngModel)]="entity.CustomerMobile" disabled name="customerMobile" class="form-control">
+
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Ghi chú khách hàng </label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <textarea class="form-control" disabled #customerMessage="ngModel" [(ngModel)]="entity.CustomerMessage" name="customerMessage" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Phương thức thanh toán</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <select class="form-control" #paymentMethod="ngModel" disabled name="paymentMethod" [(ngModel)]="entity.PaymentMethod">
+              <option value="">--Chọn phương thức tahnh toán--</option>
+              <option value="CASH">Tiền mặt</option>
+              <option value="BANKING">Chuyển khoản</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng thái thanh toán</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <select class="form-control" #paymentStatus="ngModel" disabled name="paymentStatus" [(ngModel)]="entity.PaymentStatus">
+              <option value="">--Trạng thái--</option>
+              <option value="PAID">Đã thanh toán</option>
+              <option value="UNPAID">Chưa thanh toán</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng thái</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="checkbox">
+              <label>
+                   <input type="checkbox" disabled [(ngModel)]="entity.Status" name="status" #status="ngModel"> Hợp lệ
+                </label>
+            </div>
+
+          </div>
+        </div>
+        <table class="table" *ngIf="orderDetails && orderDetails.length > 0">
+          <thead>
+            <tr>
+              <th>
+                Sản phẩm
+              </th>
+              <th>
+                Số lượng
+              </th>
+              <th>Giá</th>
+              <th>Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of orderDetails">
+              <td>
+                {{item.Product.Name}}
+              </td>
+              <td>
+                {{item.Quantity | number}}
+              </td>
+              <td>{{item.Price | number}}</td>
+              <td>{{item.Price * item.Quantity | number}}</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                  Tổng tiền: {{totalAmount}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="ln_solid"></div>
+      </form>
+    </div>
+  </div>
+
+</div>
