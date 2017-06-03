@@ -271,3 +271,65 @@
     </div>
   </div>
 </div>
+
+<!--Quản lý ảnh-->
+<div bsModal #imageManageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Quản lý ảnh sản phẩm</h4>
+        <button type="button" class="close pull-right" (click)="imageManageModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left input_mask" *ngIf="imageEntity" novalidate #imageForm="ngForm" (ngSubmit)="saveProductImage(imageForm.valid)">
+          <div class="form-group row">
+            <div class="col-xs-3">
+              <label>Chọn ảnh</label>
+              <input type="file" required #imagePath name="imagePath" class="form-control">
+              <p class="help-block label label-danger"> chỉ hỗ trợ định dạng *.png, *.jpg, *.jpeg </p>
+              <input type="hidden" [(ngModel)]="imageEntity.Path" name="imagePath" />
+              <input type="hidden" [(ngModel)]="imageEntity.ProductId" name="productId" />
+            </div>
+            <div class="col-xs-3">
+              <label for="ex2">Mô tả</label>
+              <input class="form-control" name="caption" [(ngModel)]="imageEntity.Caption" type="text">
+            </div>
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary mt-24" [disabled]="!imageForm.valid">Thêm</button>
+            </div>
+          </div>
+        </form>
+        <table class="table" *ngIf="productImages && productImages.length > 0">
+          <thead>
+            <tr>
+              <th>
+                Hình ảnh
+              </th>
+              <th>
+                Mô tả
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let image of productImages">
+              <td>
+                <img [src]="baseFolder + image.Path" width="100" />
+              </td>
+              <td>
+                {{image.Caption}}
+              </td>
+              <td>
+                <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Xóa số lượng" (click)="deleteImage(image.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="ln_solid"></div>
+      </div>
+    </div>
+  </div>
+</div>
