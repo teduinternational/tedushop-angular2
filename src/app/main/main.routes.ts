@@ -21,6 +21,8 @@ export const mainRoutes: Routes = [
             { path: 'product', loadChildren: './product/product.module#ProductModule' },
 
             { path: 'order', loadChildren: './order/order.module#OrderModule' },
+
+            { path: 'announcement', loadChildren: './announcement/announcement.module#AnnouncementModule' },
         ]
     }
 

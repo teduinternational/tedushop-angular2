@@ -10,7 +10,7 @@ import { MessageContstants } from '../../core/common/message.constants';
 import { SystemConstants } from '../../core/common/system.constants';
 
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
-declare var moment: any;
+
 
 @Component({
   selector: 'app-user',
