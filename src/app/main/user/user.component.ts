@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { DataService } from '../../core/services/data.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NotificationService } from '../../core/services/notification.service';
@@ -40,14 +41,14 @@ export class UserComponent implements OnInit {
   };
 
   constructor(private _dataService: DataService,
-    private _notificationService: NotificationService, 
+    private _notificationService: NotificationService,
     private _utilityService: UtilityService,
-    private _uploadService: UploadService,public _authenService: AuthenService) { 
+    private _uploadService: UploadService, public _authenService: AuthenService) {
 
-      if(_authenService.checkAccess('USER')==false){
-          _utilityService.navigateToLogin();
-      }
+    if (_authenService.checkAccess('USER') == false) {
+      _utilityService.navigateToLogin();
     }
+  }
 
   ngOnInit() {
     this.loadRoles();
@@ -96,8 +97,8 @@ export class UserComponent implements OnInit {
     this.loadUserDetail(id);
     this.modalAddEdit.show();
   }
-  saveChange(valid: boolean) {
-    if (valid) {
+  saveChange(form: NgForm) {
+    if (form.valid) {
       this.entity.Roles = this.myRoles;
       let fi = this.avatar.nativeElement;
       if (fi.files.length > 0) {
@@ -105,20 +106,21 @@ export class UserComponent implements OnInit {
           .then((imageUrl: string) => {
             this.entity.Avatar = imageUrl;
           }).then(() => {
-            this.saveData();
+            this.saveData(form);
           });
       }
       else {
-        this.saveData();
+        this.saveData(form);
       }
     }
   }
-  private saveData() {
+  private saveData(form: NgForm) {
     if (this.entity.Id == undefined) {
       this._dataService.post('/api/appUser/add', JSON.stringify(this.entity))
         .subscribe((response: any) => {
           this.loadData();
           this.modalAddEdit.hide();
+          form.resetForm();
           this._notificationService.printSuccessMessage(MessageContstants.CREATED_OK_MSG);
         }, error => this._dataService.handleError(error));
     }
@@ -127,6 +129,7 @@ export class UserComponent implements OnInit {
         .subscribe((response: any) => {
           this.loadData();
           this.modalAddEdit.hide();
+          form.resetForm();
           this._notificationService.printSuccessMessage(MessageContstants.UPDATED_OK_MSG);
         }, error => this._dataService.handleError(error));
     }
@@ -145,6 +148,6 @@ export class UserComponent implements OnInit {
   }
 
   public selectedDate(value: any) {
-    this.entity.BirthDay =  moment(value.end._d).format('DD/MM/YYYY');
+    this.entity.BirthDay = moment(value.end._d).format('DD/MM/YYYY');
   }
 }

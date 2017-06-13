@@ -1,0 +1,42 @@
+<div class="page-title">
+  <div class="title_left">
+    <h3>Thống kê doanh thu</h3>
+  </div>
+
+  <div class="title_right">
+    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-md-6">
+    <div style="display:block;" *ngIf="lineChartData && lineChartLabels">
+      <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+        [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6" style="margin-bottom: 10px">
+    <table  *ngIf="lineChartData && lineChartLabels" class="table table-responsive table-condensed">
+      <tr>
+        <th>Ngày</th>
+        <th>Doanh thu</th>
+        <th>Lợi nhuận</th>
+      </tr>
+      <tr *ngFor="let item of tableData">
+        <td>{{item.Date | date:'dd/MM/yyyy'}}</td>
+        <td>{{item.Revenues | number}} VND</td>
+        <td>{{item.Benefit | number}} VND</td>
+      </tr>
+    </table>
+    <button (click)="loadRevenues()">Tải lại số liệu</button>
+  </div>
+</div>
