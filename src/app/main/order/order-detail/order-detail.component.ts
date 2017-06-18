@@ -19,7 +19,7 @@ export class OrderDetailComponent implements OnInit {
   public entity: any;
   public totalAmount: number;
   public orderId: number;
-  public baseFolder : string = SystemConstants.BASE_API;
+  public baseFolder: string = SystemConstants.BASE_API;
   constructor(private utilityService: UtilityService,
     private _dataService: DataService,
     private activatedRoute: ActivatedRoute,
@@ -35,6 +35,11 @@ export class OrderDetailComponent implements OnInit {
     });
 
   }
+
+  public goBack() {
+    this.utilityService.navigate('/main/order/index');
+  }
+
   public loadOrder(id: number) {
     this._dataService.get('/api/order/detail/' + id.toString()).subscribe((response: any) => {
       this.entity = response;

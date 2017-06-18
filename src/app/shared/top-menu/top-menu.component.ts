@@ -2,8 +2,11 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { LoggedInUser } from '../../core/domain/loggedin.user';
 import { AuthenService } from '../../core/services/authen.service';
 import { SystemConstants } from '../../core/common/system.constants';
+import { UrlConstants } from '../../core/common/url.constants';
+
 import { SignalrService } from '../../core/services/signalr.service';
 import { DataService } from '../../core/services/data.service';
+import { UtilityService } from '../../core/services/utility.service';
 @Component({
   selector: 'app-top-menu',
   templateUrl: './top-menu.component.html',
@@ -14,7 +17,9 @@ export class TopMenuComponent implements OnInit {
   public baseFolder: string = SystemConstants.BASE_API;
   public canSendMessage: Boolean;
   public announcements: any[];
-  constructor(private _authenService: AuthenService, private _signalRService: SignalrService,
+  constructor(private _authenService: AuthenService,
+    private utilityService: UtilityService,
+    private _signalRService: SignalrService,
     private _dataService: DataService,
     private _ngZone: NgZone) {
     // this can subscribe for events  
@@ -26,6 +31,10 @@ export class TopMenuComponent implements OnInit {
   ngOnInit() {
     this.user = this._authenService.getLoggedInUser();
     this.loadAnnouncements();
+  }
+  logout() {
+    localStorage.removeItem(SystemConstants.CURRENT_USER);
+    this.utilityService.navigate(UrlConstants.LOGIN);
   }
   private subscribeToEvents(): void {
 
