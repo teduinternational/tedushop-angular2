@@ -40,7 +40,7 @@ export class TopMenuComponent implements OnInit {
     // finally our service method to call when response received from server event and transfer response to some variable to be shwon on the browser.  
     this._signalRService.announcementReceived.subscribe((announcement: any) => {
       this._ngZone.run(() => {
-        announcement.CreatedDate = moment(moment(announcement.CreatedDate).format("YYYYMMDD"), "YYYYMMDD").fromNow();
+        announcement.CreatedDate = moment(announcement.CreatedDate).fromNow();
         self.announcements.push(announcement);
       });
     });
@@ -59,7 +59,7 @@ export class TopMenuComponent implements OnInit {
     this._dataService.get('/api/Announcement/getTopMyAnnouncement').subscribe((response: any) => {
       this.announcements = [];
       for (let item of response) {
-        item.CreatedDate = moment(moment().format("YYYYMMDD"), "YYYYMMDD").fromNow();
+        item.CreatedDate = moment(item.CreatedDate).fromNow();
         this.announcements.push(item);
       }
 
