@@ -33,7 +33,7 @@
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/fastclick/lib/fastclick.js",
         "../node_modules/alertifyjs/build/alertify.js",
-        "../node_modules/moment/moment.js",
+        "../node_modules/moment/min/moment-with-locales.min.js",
         "../node_modules/tinymce/tinymce.js",
         "../node_modules/tinymce/themes/modern/theme.js",
         "../node_modules/tinymce/plugins/link/plugin.js",

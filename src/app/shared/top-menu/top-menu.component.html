@@ -32,7 +32,7 @@
           <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
             <li *ngFor="let item of announcements">
               <a (click)="markAsRead(item.ID)">
-                <span class="image"><img [src]="item.AppUser.Avatar" alt="item.AppUser.FullName" /></span>
+                <span class="image"><img [src]="baseFolder+item.AppUser.Avatar" height="30" alt="item.AppUser.FullName" /></span>
                 <span>
                       <span>{{item.AppUser.FullName}}</span>
                       <span class="time">{{item.CreatedDate}}</span>
