@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AuthGuard } from './core/guards/auth.guard';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent
@@ -14,6 +15,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     HttpModule,
     RouterModule.forRoot(appRoutes, { useHash: true }),
     PaginationModule.forRoot()

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { SystemConstants } from '../../core/common/system.constants';
 import { LoggedInUser } from '../domain/loggedin.user';
-import 'rxjs/add/operator/map';
+
 @Injectable()
 export class AuthenService {
 
@@ -16,13 +16,24 @@ export class AuthenService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this._http.post(SystemConstants.BASE_API + '/api/oauth/token', body, options).map((response: Response) => {
-      let user: LoggedInUser = response.json();
-      if (user && user.access_token) {
-        localStorage.removeItem(SystemConstants.CURRENT_USER);
-        localStorage.setItem(SystemConstants.CURRENT_USER, JSON.stringify(user));
-      }
+    var promise = new Promise((resolve, reject) => {
+      this._http.post(SystemConstants.BASE_API + '/api/oauth/token', body, options)
+        .subscribe((response: any) => {
+          let user: LoggedInUser = response.json();
+          console.log(user);
+          if (user && user.access_token) {
+            localStorage.removeItem(SystemConstants.CURRENT_USER);
+            localStorage.setItem(SystemConstants.CURRENT_USER, JSON.stringify(user));
+            resolve(true);
+          }
+          else {
+            reject(false);
+          }
+        }, error => {
+          reject(error);
+        });
     });
+    return promise;
   }
   logout() {
     localStorage.removeItem(SystemConstants.CURRENT_USER);
