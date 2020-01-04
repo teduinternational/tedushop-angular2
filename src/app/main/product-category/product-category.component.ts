@@ -13,9 +13,9 @@ import { TreeComponent } from 'angular-tree-component';
   styleUrls: ['./product-category.component.css']
 })
 export class ProductCategoryComponent implements OnInit {
-  @ViewChild('addEditModal') public addEditModal: ModalDirective;
+  @ViewChild('addEditModal', {static: false}) public addEditModal: ModalDirective;
 
-  @ViewChild(TreeComponent)
+  @ViewChild(TreeComponent, {static: false})
   private treeProductCategory: TreeComponent;
   public filter: string = '';
   public entity: any;

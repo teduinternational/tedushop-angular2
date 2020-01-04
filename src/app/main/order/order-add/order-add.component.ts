@@ -12,7 +12,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   styleUrls: ['./order-add.component.css']
 })
 export class OrderAddComponent implements OnInit {
-  @ViewChild('addEditModal') public addEditModal: ModalDirective;
+  @ViewChild('addEditModal', {static: false}) public addEditModal: ModalDirective;
   public entity: any = { Status: true };
   public sizeId: number = null;
   public colorId: number = null;

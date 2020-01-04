@@ -8,7 +8,7 @@ import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewC
 export class SimpleTinyComponent implements  AfterViewInit, OnDestroy {
 
  @Input() elementId: String;
-  @Output() onEditorKeyup = new EventEmitter<any>();
+ @Output() onEditorKeyup = new EventEmitter<any>();
   @Input() content: string;
   editor;
 

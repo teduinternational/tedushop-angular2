@@ -11,6 +11,7 @@ import { MessageContstants } from '../../core/common/message.constants';
 import { SystemConstants } from '../../core/common/system.constants';
 
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -20,8 +21,8 @@ import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 })
 export class UserComponent implements OnInit {
 
-  @ViewChild('modalAddEdit') public modalAddEdit: ModalDirective;
-  @ViewChild('avatar') avatar;
+  @ViewChild('modalAddEdit', {static: false}) public modalAddEdit: ModalDirective;
+  @ViewChild('avatar', {static: false}) avatar;
   public myRoles: string[] = [];
   public pageIndex: number = 1;
   public pageSize: number = 10;
@@ -30,7 +31,7 @@ export class UserComponent implements OnInit {
   public filter: string = '';
   public users: any[];
   public entity: any;
-  public baseFolder: string = SystemConstants.BASE_API;
+  public baseFolder: string = environment.BASE_API;
   public allRoles: IMultiSelectOption[] = [];
   public roles: any[];
 

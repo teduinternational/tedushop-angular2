@@ -9,7 +9,7 @@ import { MessageContstants } from '../../core/common/message.constants';
   styleUrls: ['./role.component.css']
 })
 export class RoleComponent implements OnInit {
-  @ViewChild('modalAddEdit') public modalAddEdit: ModalDirective;
+  @ViewChild('modalAddEdit', {static: false}) public modalAddEdit: ModalDirective;
   public pageIndex: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;

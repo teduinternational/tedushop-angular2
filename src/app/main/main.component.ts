@@ -4,6 +4,7 @@ import { UrlConstants } from '../core/common/url.constants';
 import { UtilityService } from '../core/services/utility.service';
 import { AuthenService } from '../core/services/authen.service';
 import { LoggedInUser } from '../core/domain/loggedin.user';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -11,7 +12,7 @@ import { LoggedInUser } from '../core/domain/loggedin.user';
 })
 export class MainComponent implements OnInit {
   public user: LoggedInUser;
-  public baseFolder: string = SystemConstants.BASE_API;
+  public baseFolder: string = environment.BASE_API;
   constructor(private utilityService: UtilityService, private authenService: AuthenService) { }
 
   ngOnInit() {

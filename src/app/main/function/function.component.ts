@@ -12,9 +12,9 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   styleUrls: ['./function.component.css']
 })
 export class FunctionComponent implements OnInit {
-  @ViewChild('addEditModal') public addEditModal: ModalDirective;
-  @ViewChild('permissionModal') public permissionModal: ModalDirective;
-  @ViewChild(TreeComponent)
+  @ViewChild('addEditModal', { static: false}) public addEditModal: ModalDirective;
+  @ViewChild('permissionModal', {static: false}) public permissionModal: ModalDirective;
+  @ViewChild(TreeComponent, {static: false})
   private treeFunction: TreeComponent;
 
   public _functionHierachy: any[];

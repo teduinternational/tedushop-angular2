@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../../../core/services/data.service';
 
-import { NotificationService } from '../../../core/services/notification.service';
 import { UtilityService } from '../../../core/services/utility.service';
 import { MessageContstants } from '../../../core/common/message.constants';
 import { SystemConstants } from '../../../core/common/system.constants';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-order-detail',
@@ -19,11 +19,10 @@ export class OrderDetailComponent implements OnInit {
   public entity: any;
   public totalAmount: number;
   public orderId: number;
-  public baseFolder: string = SystemConstants.BASE_API;
+  public baseFolder: string = environment.BASE_API;
   constructor(private utilityService: UtilityService,
     private _dataService: DataService,
-    private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService) { }
+    private activatedRoute: ActivatedRoute) { }
 
 
   ngOnInit() {

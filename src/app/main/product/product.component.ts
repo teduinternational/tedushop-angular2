@@ -6,10 +6,10 @@ import { UtilityService } from '../../core/services/utility.service';
 import { AuthenService } from '../../core/services/authen.service';
 
 import { MessageContstants } from '../../core/common/message.constants';
-import { SystemConstants } from '../../core/common/system.constants';
 import { UploadService } from '../../core/services/upload.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product',
@@ -18,15 +18,15 @@ import { Router } from '@angular/router';
 })
 export class ProductComponent implements OnInit {
   /*Declare modal */
-  @ViewChild('addEditModal') public addEditModal: ModalDirective;
-  @ViewChild("thumbnailImage") thumbnailImage;
-  public baseFolder: string = SystemConstants.BASE_API;
+  @ViewChild('addEditModal', {static: false}) public addEditModal: ModalDirective;
+  @ViewChild('thumbnailImage', {static: false}) thumbnailImage;
+  public baseFolder: string = environment.BASE_API;
   public entity: any;
   public totalRow: number;
-  public pageIndex: number = 1;
-  public pageSize: number = 20;
-  public pageDisplay: number = 10;
-  public filterKeyword: string = '';
+  public pageIndex = 1;
+  public pageSize = 20;
+  public pageDisplay = 10;
+  public filterKeyword = '';
   public filterCategoryID: number;
   public products: any[];
   public productCategories: any[];
@@ -35,15 +35,15 @@ export class ProductComponent implements OnInit {
   /*Product manage */
   public imageEntity: any = {};
   public productImages: any = [];
-  @ViewChild('imageManageModal') public imageManageModal: ModalDirective;
-  @ViewChild("imagePath") imagePath;
+  @ViewChild('imageManageModal', {static: false}) public imageManageModal: ModalDirective;
+  @ViewChild('imagePath', {static: false}) imagePath;
   public sizeId: number = null;
   public colorId: number = null;
   public colors: any[];
   public sizes: any[];
 
   /*Quantity manage */
-  @ViewChild('quantityManageModal') public quantityManageModal: ModalDirective;
+  @ViewChild('quantityManageModal', {static: false}) public quantityManageModal: ModalDirective;
   public quantityEntity: any = {};
   public productQuantities: any = [];
 
@@ -72,12 +72,12 @@ export class ProductComponent implements OnInit {
     this.filterCategoryID = null;
     this.search();
   }
-  //Show add form
+  // Show add form
   public showAdd() {
     this.entity = { Content: '' };
     this.addEditModal.show();
   }
-  //Show edit form
+  // Show edit form
   public showEdit(id: string) {
     this._dataService.get('/api/product/detail/' + id).subscribe((response: any) => {
       this.entity = response;
@@ -99,31 +99,29 @@ export class ProductComponent implements OnInit {
       this.productCategories = response;
     }, error => this._dataService.handleError(error));
   }
-  //Save change for modal popup
+  // Save change for modal popup
   public saveChanges(valid: boolean) {
     if (valid) {
-      let fi = this.thumbnailImage.nativeElement;
+      const fi = this.thumbnailImage.nativeElement;
       if (fi.files.length > 0) {
         this.uploadService.postWithFile('/api/upload/saveImage?type=product', null, fi.files).then((imageUrl: string) => {
           this.entity.ThumbnailImage = imageUrl;
         }).then(() => {
           this.saveData();
         });
-      }
-      else {
+      } else {
         this.saveData();
       }
     }
   }
   private saveData() {
-    if (this.entity.ID == undefined) {
+    if (this.entity.ID === undefined) {
       this._dataService.post('/api/product/add', JSON.stringify(this.entity)).subscribe((response: any) => {
         this.search();
         this.addEditModal.hide();
         this.notificationService.printSuccessMessage(MessageContstants.CREATED_OK_MSG);
       });
-    }
-    else {
+    } else {
       this._dataService.put('/api/product/update', JSON.stringify(this.entity)).subscribe((response: any) => {
         this.search();
         this.addEditModal.hide();
@@ -142,9 +140,10 @@ export class ProductComponent implements OnInit {
 
   public deleteMulti() {
     this.checkedItems = this.products.filter(x => x.Checked);
-    var checkedIds = [];
-    for (var i = 0; i < this.checkedItems.length; ++i)
-      checkedIds.push(this.checkedItems[i]["ID"]);
+    const checkedIds = [];
+    for (let i = 0; i < this.checkedItems.length; ++i) {
+      checkedIds.push(this.checkedItems[i]['ID']);
+    }
 
     this.notificationService.printConfirmationDialog(MessageContstants.CONFIRM_DELETE_MSG, () => {
       this._dataService.delete('/api/product/deletemulti', 'checkedProducts', JSON.stringify(checkedIds)).subscribe((response: any) => {
@@ -179,7 +178,7 @@ export class ProductComponent implements OnInit {
 
   public saveProductImage(isValid: boolean) {
     if (isValid) {
-      let fi = this.imagePath.nativeElement;
+      const fi = this.imagePath.nativeElement;
       if (fi.files.length > 0) {
         this.uploadService.postWithFile('/api/upload/saveImage?type=product', null, fi.files).then((imageUrl: string) => {
           this.imageEntity.Path = imageUrl;
@@ -215,7 +214,8 @@ export class ProductComponent implements OnInit {
   }
 
   public loadProductQuantities(id: number) {
-    this._dataService.get('/api/productQuantity/getall?productId=' + id + '&sizeId=' + this.sizeId + '&colorId=' + this.colorId).subscribe((response: any[]) => {
+    this._dataService.get('/api/productQuantity/getall?productId=' + id +
+    '&sizeId=' + this.sizeId + '&colorId=' + this.colorId).subscribe((response: any[]) => {
       this.productQuantities = response;
     }, error => this._dataService.handleError(error));
   }
@@ -233,7 +233,7 @@ export class ProductComponent implements OnInit {
   }
 
    public deleteQuantity(productId: number, colorId: string, sizeId: string) {
-    var parameters = { "productId": productId, "sizeId": sizeId, "colorId": colorId };
+    const parameters = { 'productId': productId, 'sizeId': sizeId, 'colorId': colorId };
     this.notificationService.printConfirmationDialog(MessageContstants.CONFIRM_DELETE_MSG, () => {
       this._dataService.deleteWithMultiParams('/api/productQuantity/delete', parameters).subscribe((response: any) => {
         this.notificationService.printSuccessMessage(MessageContstants.DELETED_OK_MSG);

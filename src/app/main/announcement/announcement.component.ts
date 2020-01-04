@@ -12,7 +12,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 export class AnnouncementComponent implements OnInit {
 
-  @ViewChild('addEditModal') public addEditModal: ModalDirective;
+  @ViewChild('addEditModal', {static: false}) public addEditModal: ModalDirective;
   public totalRow: number;
   public pageIndex: number = 1;
   public pageSize: number = 20;

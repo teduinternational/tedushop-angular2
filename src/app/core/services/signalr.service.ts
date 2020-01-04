@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { SystemConstants } from './../common/system.constants';
 import { AuthenService } from './authen.service';
+import { environment } from 'src/environments/environment';
 @Injectable()
 export class SignalrService {
 
@@ -20,7 +21,7 @@ export class SignalrService {
     this.announcementReceived = new EventEmitter<any>();
     this.connectionExists = false;
     // create hub connection  
-    this.connection = $.hubConnection(SystemConstants.BASE_API);
+    this.connection = $.hubConnection(environment.BASE_API);
     this.connection.qs = { "access_token": _authenService.getLoggedInUser().access_token };
     // create new proxy as name already given in top  
     this.proxy = this.connection.createHubProxy(this.proxyName);
