@@ -37,7 +37,7 @@
     "ngx-bootstrap": "^5.2.0",
     "rxjs": "^6.5.4",
     "signalr": "^2.4.1",
-    "tinymce": "^5.1.5",
+    "tinymce": "^4.9.7",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
