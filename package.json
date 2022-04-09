@@ -31,7 +31,7 @@
     "fastclick": "^1.0.6",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ng2-charts": "^2.3.0",
     "ng2-daterangepicker": "^2.0.12",
     "ngx-bootstrap": "^5.2.0",
